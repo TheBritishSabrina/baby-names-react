@@ -1,5 +1,3 @@
-import { reduceEachTrailingCommentRange } from "typescript";
-
 type propType = {
   name: string;
   sex: string;
