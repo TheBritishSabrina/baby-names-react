@@ -1,3 +1,4 @@
+import { useState } from "react";
 import babyNamesData from "../babyNamesData.json";
 import BabyName from "./BabyName";
 
@@ -8,6 +9,8 @@ type babyNameType = {
 };
 
 export default function BabyNamesList(): JSX.Element {
+  const [searchTerm, setSearchTerm] = useState("");
+
   function compareFunction(
     firstBabyName: babyNameType,
     secondBabyName: babyNameType
@@ -19,9 +22,18 @@ export default function BabyNamesList(): JSX.Element {
 
   return (
     <div>
-      {babyNamesData.sort(compareFunction).map((babyName) => (
-        <BabyName name={babyName.name} sex={babyName.sex} key={babyName.id} />
-      ))}
+      <input
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      {babyNamesData
+        .filter((babyName) =>
+          babyName.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        .sort(compareFunction)
+        .map((babyName) => (
+          <BabyName name={babyName.name} sex={babyName.sex} key={babyName.id} />
+        ))}
     </div>
   );
 }
