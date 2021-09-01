@@ -1,6 +1,8 @@
+import { babyNameI } from "../types/BabyNameI";
+
 type propType = {
-  name: string;
-  sex: string;
+  babyName: babyNameI;
+  setFavourites: React.Dispatch<React.SetStateAction<babyNameI[]>>;
 };
 
 const bubbleStyle = {
@@ -24,9 +26,23 @@ const mascStyle = {
 
 export default function BabyName(props: propType): JSX.Element {
   const styles =
-    props.sex === "f"
+    props.babyName.sex === "f"
       ? { ...bubbleStyle, ...femStyle }
       : { ...bubbleStyle, ...mascStyle };
 
-  return <div style={styles}>{props.name}</div>;
+  const handleClick = () => {
+    props.setFavourites((prev) => {
+      if (prev.includes(props.babyName)) {
+        return prev.filter((babyName) => babyName !== props.babyName);
+      } else {
+        return [...prev, props.babyName];
+      }
+    });
+  };
+
+  return (
+    <button style={styles} onClick={handleClick}>
+      {props.babyName.name}
+    </button>
+  );
 }
